@@ -1,0 +1,78 @@
+version: "3.9"
+
+services:
+  customer_service:
+    container_name: customer_service
+    build:
+      context: ./
+      dockerfile: ./customers/Dockerfile
+    volumes:
+      - ./customers/app/:/code/app
+    environment:
+      - PYTHONPATH=/code
+      - DATABASE_URI=postgresql+asyncpg://customer_db:customer_db@customer_db/customer_db
+    depends_on:
+      - customer_db
+
+  customer_db:
+    container_name: customer_db
+    image: postgres:14.4-alpine
+    environment:
+      - POSTGRES_USER=customer_db
+      - POSTGRES_PASSWORD=customer_db
+      - POSTGRES_DB=customer_db
+
+  sfs_service:
+    container_name: sfs_service
+    build:
+      context: ./
+      dockerfile: ./services/Dockerfile
+    volumes:
+      - ./services/app/:/code/app
+    environment:
+      - PYTHONPATH=/code
+      - DATABASE_URI=postgresql+asyncpg://sfs_db:sfs_db@sfs_db/sfs_db
+      - CUSTOMER_GRPC_HOST=customer_service:50051
+    depends_on:
+      - sfs_db
+
+  sfs_db:
+    container_name: sfs_db
+    image: postgres:14.4-alpine
+    environment:
+      - POSTGRES_USER=sfs_db
+      - POSTGRES_PASSWORD=sfs_db
+      - POSTGRES_DB=sfs_db
+
+  order_service:
+    container_name: order_service
+    build:
+      context: ./
+      dockerfile: ./orders/Dockerfile
+    volumes:
+      - ./orders/app/:/code/app
+    environment:
+      - PYTHONPATH=/code
+      - DATABASE_URI=postgresql+asyncpg://order_db:order_db@order_db/order_db
+      - CUSTOMER_GRPC_HOST=customer_service:50051
+      - SFS_GRPC_HOST=sfs_service:50051
+    depends_on:
+      - order_db
+
+  order_db:
+    container_name: order_db
+    image: postgres:14.4-alpine
+    environment:
+      - POSTGRES_USER=order_db
+      - POSTGRES_PASSWORD=order_db
+      - POSTGRES_DB=order_db
+
+  nginx:
+    container_name: web_server
+    image: nginx:latest
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - customer_service
