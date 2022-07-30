@@ -12,7 +12,7 @@ from app.database import Base
 class Customer(Base):
     """Customer table."""
 
-    __tablename__ = "customer"
+    __tablename__ = "customers"
     id = Column(Integer, primary_key=True)
     first_name = Column(String(100))
     last_name = Column(String(100))
@@ -27,9 +27,9 @@ class Customer(Base):
 class CustomerActivity(Base):
     """Customer activity table."""
 
-    __tablename__ = "customer_activity"
+    __tablename__ = "customer_activities"
     id = Column(Integer, primary_key=True)
-    customer_id = Column(Integer, ForeignKey("customer.id"))
+    customer_id = Column(Integer, ForeignKey("customers.id"))
     activity = Column(Text)
     timestamp = Column(DateTime, default=datetime.datetime.now)
 

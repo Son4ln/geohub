@@ -8,7 +8,7 @@ from app.database import Base
 class Service(Base):
     """Service table."""
 
-    __tablename__ = "service"
+    __tablename__ = "services"
     id = Column(Integer, primary_key=True)
     code = Column(String(100), unique=True)
     name = Column(String(100))

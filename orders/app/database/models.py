@@ -11,14 +11,14 @@ from app.database import Base
 class Order(Base):
     """Order table."""
 
-    __tablename__ = "order"
+    __tablename__ = "orders"
     id = Column(Integer, primary_key=True)
     customer_id = Column(Integer)
     employee_id = Column(Integer)
     status = Column(String(50))
     note = Column(Text)
     created_date = Column(DateTime, default=datetime.datetime.now)
-    ordered_services = relationship("OrderedService", back_populates="order")
+    ordered_services = relationship("OrderedService", back_populates="orders")
 
     def __repr__(self) -> str:
         return f"Customer ID: {self.id} - Employee ID: {self.employee_id}"
@@ -27,9 +27,9 @@ class Order(Base):
 class OrderedService(Base):
     """Customer activity table."""
 
-    __tablename__ = "ordered_service"
+    __tablename__ = "ordered_services"
     id = Column(Integer, primary_key=True)
-    order_id = Column(Integer, ForeignKey("order.id"))
+    order_id = Column(Integer, ForeignKey("orders.id"))
     service_id = Column(Integer)
     order = relationship("Order", back_populates="ordered_services")
 
