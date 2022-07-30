@@ -18,7 +18,7 @@ class Order(Base):
     status = Column(String(50))
     note = Column(Text)
     created_date = Column(DateTime, default=datetime.datetime.now)
-    ordered_services = relationship("OrderedService", back_populates="orders")
+    ordered_services = relationship("OrderedService", back_populates="order")
 
     def __repr__(self) -> str:
         return f"Customer ID: {self.id} - Employee ID: {self.employee_id}"

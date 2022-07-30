@@ -4,7 +4,10 @@ from fastapi import FastAPI
 from app.database import Base, Engine
 from app.rest_api.orders import order_router
 
-api_app = FastAPI()
+api_app = FastAPI(
+    openapi_url="/api/orders/openapi.json",
+    docs_url="/api/orders/docs",
+)
 
 
 async def create_tables():
