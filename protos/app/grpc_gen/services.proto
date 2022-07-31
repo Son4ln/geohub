@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+service SFSService {
+   rpc GetServiceById(ServiceId) returns (Service) {}
+}
+
+message ServiceId {
+    int32 id = 1;
+}
+
+message Service {
+   int32 id = 1;
+   string code = 2;
+   string name = 3;
+   string summary = 4;
+   string description = 5;
+   int32 price = 6;
+   string os_platform = 7;
+}

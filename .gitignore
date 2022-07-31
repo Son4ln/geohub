@@ -1,4 +1,6 @@
 __pycache__
 .vscode
-grpc_gen
+customers/app/grpc_gen
+orders/app/grpc_gen
+services/app/grpc_gen
 .pytest_cache

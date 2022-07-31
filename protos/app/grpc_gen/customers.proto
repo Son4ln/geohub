@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+service CustomerService {
+   rpc AddCustomerActivity(CustomerActivity) returns (CustomerEmpty) {}
+   rpc GetCustomerByID(CustomerID) returns (Customer) {}
+}
+
+message CustomerEmpty {}
+
+message CustomerActivity {
+   int32 customer_id = 1;
+   string activity = 2;
+}
+
+message CustomerID {
+   int32 id = 1;
+}
+
+message Customer {
+   int32 id = 1;
+   string first_name = 2;
+   string last_name = 3;
+   string phone = 4;
+   string email = 5;
+   string address = 6;
+}
