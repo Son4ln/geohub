@@ -1,5 +1,7 @@
 # Geo's Hub Project
 
+System design inside `system_design ` directory.
+
 ## Code structure explanation
 
 Geo's Hub online services are built using Docker, FastAPI, GRPC, Postgresql, and Nginx.
